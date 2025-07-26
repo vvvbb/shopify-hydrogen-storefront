@@ -2,6 +2,7 @@ import {Await, useLoaderData, Link} from 'react-router';
 import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
+import {BlocSeo} from '~/components/BlocSeo';
 
 /**
  * @type {MetaFunction}
@@ -65,6 +66,8 @@ export default function Homepage() {
   return (
     <div className="home">
       <FeaturedCollection collection={data.featuredCollection} />
+      <BlocSeo products={data.recommendedProducts} inverse={true} />
+      <BlocSeo products={data.recommendedProducts} inverse={false} />
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
@@ -88,7 +91,7 @@ function FeaturedCollection({collection}) {
           <Image data={image} sizes="100vw" />
         </div>
       )}
-      <h1>{collection.title}</h1>
+      <h1 className='absolute top-0 mt-8 !ml-8 bg-white !p-4'>{collection.title}</h1>
     </Link>
   );
 }
