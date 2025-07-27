@@ -3,6 +3,7 @@ import {Suspense} from 'react';
 import {Image} from '@shopify/hydrogen';
 import {ProductItem} from '~/components/ProductItem';
 import {BlocSeo} from '~/components/BlocSeo';
+import {ProductSlider} from '~/components/Slider';
 
 /**
  * @type {MetaFunction}
@@ -30,13 +31,17 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{collections}] = await Promise.all([
+  const [{collections},{products}] = await Promise.all([
     context.storefront.query(FEATURED_COLLECTION_QUERY),
     // Add other queries here, so that they are loaded in parallel
+    context.storefront.query(FEATURED_PRODUCTS_QUERY),
   ]);
+
+  const featuredProducts = products.edges.map((edge) => edge.node);
 
   return {
     featuredCollection: collections.nodes[0],
+    featuredProducts: featuredProducts,
   };
 }
 
@@ -65,6 +70,7 @@ export default function Homepage() {
   const data = useLoaderData();
   return (
     <div className="home">
+      <ProductSlider products={data.featuredProducts} />
       <FeaturedCollection collection={data.featuredCollection} />
       <BlocSeo products={data.recommendedProducts} inverse={true} />
       <BlocSeo products={data.recommendedProducts} inverse={false} />
@@ -174,6 +180,31 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
     }
   }
 `;
+
+const FEATURED_PRODUCTS_QUERY = `#graphql
+  query FeaturedProducts {
+    products(first: 10) {
+      edges {
+        node {
+          id
+          title
+          featuredImage {
+            id
+            altText
+            url
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 
 /** @typedef {import('@shopify/remix-oxygen').LoaderFunctionArgs} LoaderFunctionArgs */
 /** @template T @typedef {import('react-router').MetaFunction<T>} MetaFunction */

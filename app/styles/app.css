@@ -441,6 +441,11 @@ button.reset:hover:not(:has(> *)) {
   width: 100%;
 }
 
+.swiper-slide img {
+  height: 80%;
+  object-fit: contain;
+}
+
 .product-main {
   align-self: start;
   position: sticky;

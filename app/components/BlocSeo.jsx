@@ -9,7 +9,7 @@ function getRandomInt(max) {
 
 export function BlocSeo({ products, inverse = false }) {
   const css_reverse = inverse ? 'md:flex-row-reverse' : 'md:flex-row';
-  const randomNumber = getRandomInt(4);
+  const randomNumber = getRandomInt(1);
 
   return (
 
@@ -23,10 +23,11 @@ export function BlocSeo({ products, inverse = false }) {
                 ?
                 <span className='bloc-seo-image relative flex-1'>
                   <Image
-                    alt={response.products.nodes[randomNumber].title || "alt text"}
+                    alt={response.products.nodes[randomNumber]?.featuredImage?.altText || "alt text"}
                     // aspectRatio="1/1"
-                    data={response.products.nodes[randomNumber].featuredImage}
+                    src={response.products.nodes[randomNumber].featuredImage.url}
                     // loading={loading}
+                    loading="lazy"
                     sizes="(min-width: 45em) 400px, 100vw"
                   />
                   <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-2 text-black'>
@@ -52,40 +53,6 @@ export function BlocSeo({ products, inverse = false }) {
     </div>
   );
 }
-
-const RANDOM_PRODUCT_QUERY = `#graphql
-  query GetProducts {
-    products(first: 10) {
-      nodes {
-        id
-        title
-      }
-    }
-  }
-`;
-
-const AARANDOM_PRODUCT_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
-    id
-    title
-    image {
-      id
-      url
-      altText
-      width
-      height
-    }
-    handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 2, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...FeaturedCollection
-      }
-    }
-  }
-`;
 
 /** @typedef {import('storefrontapi.generated').ProductItemFragment} ProductItemFragment */
 /** @typedef {import('storefrontapi.generated').CollectionItemFragment} CollectionItemFragment */
