@@ -1,0 +1,22 @@
+/*
+* --------------------------------------------------
+* components/Footer
+* --------------------------------------------------
+*/
+.footer {
+  background: var(--color-dark);
+  margin-top: auto;
+}
+
+.footer-menu {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+
+.footer-menu a {
+  color: var(--color-light);
+  min-width: fit-content;
+}

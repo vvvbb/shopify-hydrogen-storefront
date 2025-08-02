@@ -1,0 +1,24 @@
+@charset 'utf-8';
+
+@use './app/settings/variables.scss';
+@use './app/shame.scss';
+
+
+// components
+@use './app/components/aside.scss';
+@use './app/components/cart.scss';
+@use './app/components/footer.scss';
+@use './app/components/header.scss';
+@use './app/components/search.scss';
+
+// routes
+@use './app/routes/account.scss';
+@use './app/routes/blog.scss';
+@use './app/routes/collections.scss';
+@use './app/routes/index.scss';
+@use './app/routes/link.scss';
+@use './app/routes/products.scss';
+
+img {
+  border-radius: 4px;
+}

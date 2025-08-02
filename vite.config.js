@@ -13,10 +13,22 @@ export default defineConfig({
     reactRouter(),
     tsconfigPaths(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Enable modern API for better performance
+        api: 'modern-compiler',
+        // Add any global SCSS imports if needed
+        // additionalData: `@use "~/styles/app/settings/variables.scss" as *;`
+      },
+    },
+  },
   build: {
     // Allow a strict Content-Security-Policy
     // withtout inlining assets as base64:
     assetsInlineLimit: 0,
+    // Ensure CSS is properly extracted and optimized
+    cssCodeSplit: true,
   },
   ssr: {
     optimizeDeps: {
