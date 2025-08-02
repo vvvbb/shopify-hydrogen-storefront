@@ -1,0 +1,12 @@
+.product-slider-container{
+  .swiper-slide img {
+    height: 80%;
+    object-fit: contain;
+  }
+  .swiper-button-prev-custom{
+    cursor: pointer;
+  }
+  .swiper-button-disabled {
+    display: none;
+  }
+}
