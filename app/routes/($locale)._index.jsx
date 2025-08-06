@@ -188,6 +188,7 @@ const FEATURED_PRODUCTS_QUERY = `#graphql
         node {
           id
           title
+          handle
           featuredImage {
             id
             altText
