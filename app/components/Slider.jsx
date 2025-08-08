@@ -38,6 +38,8 @@ export function ProductSlider({ products }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
+  const productsToDisplay = products.filter(product => product.featuredImage);
+
   return (
     <div className="product-slider-container relative">
       {/* Custom Navigation Buttons */}
@@ -78,7 +80,7 @@ export function ProductSlider({ products }) {
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log('slide change')}
       >
-        {products.map((product) => (
+        {productsToDisplay.map((product) => (
           <SwiperSlide key={product.id} className='product-slide'>
             <ProductItem key={product.id} product={product} />
           </SwiperSlide>

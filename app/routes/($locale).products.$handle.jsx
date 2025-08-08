@@ -10,6 +10,7 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import { Collapse } from '~/components/Collapse';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 /**
@@ -127,6 +128,10 @@ export default function Product() {
         <br />
         <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
         <br />
+        <Collapse
+          title={`About ${title}`}
+          description={descriptionHtml}
+        />
       </div>
       <Analytics.ProductView
         data={{
