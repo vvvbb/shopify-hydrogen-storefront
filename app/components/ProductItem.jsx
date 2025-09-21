@@ -11,9 +11,28 @@ import {useVariantUrl} from '~/lib/variants';
  *   loading?: 'eager' | 'lazy';
  * }}
  */
-export function ProductItem({product, loading}) {
+export function ProductItem({product, loading, disableLink = false}) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
+  if (disableLink) {
+    return (
+      <div className="product-item" key={product.id}>
+        {image && (
+          <Image
+            alt={image.altText || product.title}
+            aspectRatio="1/1"
+            data={image}
+            loading={loading}
+            sizes="(min-width: 45em) 400px, 100vw"
+          />
+        )}
+        <h4>{product.title}</h4>
+        <small>
+          <Money data={product.priceRange.minVariantPrice} />
+        </small>
+      </div>
+    );
+  }
   return (
     <Link
       className="product-item"
