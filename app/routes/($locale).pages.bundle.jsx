@@ -3,6 +3,8 @@ import { useLoaderData } from 'react-router';
 import { ProductItem } from '~/components/ProductItem';
 import React, { useState } from 'react';
 import {CartForm} from '@shopify/hydrogen';
+import { data } from '@shopify/remix-oxygen';
+
 
 export async function loader({ context }) {
   const [{ products }, { collections }] = await Promise.all([
@@ -161,10 +163,8 @@ export function AddToCartButton({lines, bundleMessage, disabled, onSuccess}) {
   const [loading, setLoading] = useState(false);
   return (
     <CartForm
-      route="/cart"
       action={CartForm.ACTIONS.LinesAdd}
-      inputs={{ lines }}
-      // inputs={{ lines, note: bundleMessage }}
+      inputs={{ lines, note: bundleMessage }}
       onSubmit={() => setLoading(true)}
       onSuccess={() => {
         setLoading(false);
@@ -181,6 +181,39 @@ export function AddToCartButton({lines, bundleMessage, disabled, onSuccess}) {
       </button>
     </CartForm>
   );
+}
+
+
+export async function action({ request, context }) {
+  const { cart } = context;
+
+  const formData = await request.formData();
+  const { action, inputs } = CartForm.getFormInput(formData);
+
+  let result;
+
+  switch (action) {
+    case CartForm.ACTIONS.LinesAdd:
+      result = await cart.addLines(inputs.lines);
+      // If note is provided, update it after adding lines
+      if (inputs.note) {
+        result = await cart.updateNote(inputs.note);
+      }
+      break;
+    default:
+      invariant(false, `${action} cart action is not defined`);
+  }
+
+  // The Cart ID might change after each mutation, so update it each time.
+  const headers = cart.setCartId(result.cart.id);
+
+  return data(
+    {
+      cart: result.cart
+    },
+    { status: 200, headers },
+  );
+
 }
 
 const ALL_PRODUCTS_QUERY = `#graphql
