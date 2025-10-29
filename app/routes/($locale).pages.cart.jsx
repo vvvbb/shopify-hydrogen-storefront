@@ -1,7 +1,7 @@
 import { useLoaderData } from 'react-router';
 import { CartForm } from '@shopify/hydrogen';
 import { data } from '@shopify/remix-oxygen';
-
+import ComponentTest from '~/components/ComponentTest';
 // import invariant from 'tiny-invariant';
 
 
@@ -22,7 +22,10 @@ export default function Cart() {
   // console.log('cart', cart);
 
   return (
-    <div className="cart">
+    <div className="cart flex flex-row-reverse">
+      
+      <ComponentTest cart={cart} />
+      <div>
       <h1>Cart</h1>
       <div>
         <u>Cart {cart.totalQuantity} items:</u><b> {amount}{currencyCode}</b>
@@ -115,6 +118,7 @@ export default function Cart() {
         />
 
       </div>
+    </div>
     </div>
   );
 }
