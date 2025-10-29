@@ -19,7 +19,7 @@ export default function Cart() {
 
   const { currencyCode, amount } = cart.cost.totalAmount;
 
-  console.log('cart', cart);
+  // console.log('cart', cart);
 
   return (
     <div className="cart">
@@ -83,7 +83,7 @@ export default function Cart() {
         <UpdateCartItemsButton
           lines={[
             {
-              id: cart.lines.nodes[2]?.id,
+              id: cart.lines.nodes[1]?.id,
               // id: "gid://shopify/CartLine/835186c3-0e1d-4d32-babf-70c9bf792aa8?cart=hWN37pcbkZpjxLzDaouqAgC3",
               quantity: 1
             }
@@ -138,7 +138,7 @@ export function AddToCartButton({ lines }) {
 export function UpdateCartItemsButton({ lines }) {
   return (
     <CartForm
-      route="/pages/test"
+      route="/pages/cart"
       action={CartForm.ACTIONS.LinesUpdate}
       inputs={
         { lines }
@@ -188,7 +188,7 @@ export function AttributeUpdateForm({ attributes }) {
 export function AddProductWithNoteButton({ merchandiseId, quantity = 1, note }) {
   return (
     <CartForm
-      route="/pages/test"
+      route="/pages/cart"
       action={CartForm.ACTIONS.LinesAdd}
       inputs={{
         lines: [{ merchandiseId, quantity }],
